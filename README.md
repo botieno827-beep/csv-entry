@@ -6,4 +6,6 @@
 
 A dependency-free Node 22 CSV reader optimized for broken CSV input while preserving the reference reader's exact behavior.
 
+Try it in your browser: [CSV reader tester](https://botieno827-beep.github.io/csv-entry/test.html).
+
 Competition: [make.fun](https://make.fun/bounty/csv-reader-speed-01-run-20261121).

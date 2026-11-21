@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSV reader tester</title>
+  <style>
+    :root { color-scheme: light dark; font: 16px system-ui, sans-serif; }
+    body { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    textarea, pre { box-sizing: border-box; width: 100%; font: 14px ui-monospace, monospace; }
+    textarea { min-height: 13rem; padding: .75rem; }
+    pre { min-height: 8rem; padding: .75rem; overflow: auto; background: color-mix(in srgb, CanvasText 8%, Canvas); }
+    button { padding: .55rem 1rem; margin: 1rem 0; cursor: pointer; }
+    .row { display: flex; gap: .5rem; align-items: center; }
+    .hint { opacity: .75; }
+  </style>
+</head>
+<body>
+  <h1>CSV reader tester</h1>
+  <p>Enter CSV text below. This runs the submitted parser in your browser; the optional header setting matches the parser input.</p>
+  <label for="csv">CSV input</label>
+  <textarea id="csv" spellcheck="false">name,quote
+Ada,"hello, world"
+Lin,"line one
+line two"</textarea>
+  <div class="row">
+    <label><input id="header" type="checkbox" checked> First record is a header</label>
+    <button id="run" type="button">Parse CSV</button>
+  </div>
+  <p class="hint">The parser preserves input line endings and reports malformed-row errors according to the competition reference behavior.</p>
+  <h2>Result</h2>
+  <pre id="output" aria-live="polite"></pre>
+  <script type="module">
+    import { run } from './solve.js';
+    const csv = document.querySelector('#csv');
+    const header = document.querySelector('#header');
+    const output = document.querySelector('#output');
+    document.querySelector('#run').addEventListener('click', () => {
+      try {
+        output.textContent = JSON.stringify(run({ text: csv.value, header: header.checked }), null, 2);
+      } catch (error) {
+        output.textContent = String(error?.stack ?? error);
+      }
+    });
+    document.querySelector('#run').click();
+  </script>
+</body>
+</html>
